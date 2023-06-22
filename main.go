@@ -40,6 +40,7 @@ func renderTemplate(w http.ResponseWriter, tmpl string) {
 	err := parsedTemplate.Execute(w, nil)
 	if err != nil {
 		fmt.Println("error parsing template", err)
+		return
 	}
 }
 
