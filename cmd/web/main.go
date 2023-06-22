@@ -5,6 +5,7 @@
 package main
 
 import (
+	"Simple_Local_Web_Application/pkg/handlers"
 	"fmt"
 	"net/http"
 )
@@ -17,8 +18,8 @@ func main() {
 
 	//Each HandleFunc specifies an address and a function to call when that address is accessed
 
-	http.HandleFunc("/", Home)
-	http.HandleFunc("/about", About)
+	http.HandleFunc("/", handlers.Home)
+	http.HandleFunc("/about", handlers.About)
 
 	//Prints the port in use by the application to the terminal
 	fmt.Printf("Starting application on port %s", portNumber)
