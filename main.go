@@ -8,8 +8,8 @@
 package main
 
 import (
-	"errors"
 	"fmt"
+	"html/template"
 	"net/http"
 )
 
@@ -21,45 +21,26 @@ const portNumber = ":8080"
 
 // Home is the home page handler
 func Home(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "This is the home page")
+	renderTemplate(w, "home.page.tmpl")
 }
 
 // About is the about page handler
 func About(w http.ResponseWriter, r *http.Request) {
-	sum := addValues(2, 2)
-
-	//Fprintf will format a string and write it to w. The string is defined after w.
-	//Fprintf also returns the amount of bytes used as an interger and an error message, if any
-	//Since we're not using those returned values, they've been set to Blank Identifiers
-
-	_, _ = fmt.Fprintf(w, "This is the about page and 2 + 2 is %d", sum)
+	renderTemplate(w, "about.page.tmpl")
 }
 
-// Functions that start with a capital letter are accesbile outside their package. For best practices,
-// if a function is only called from inside it's package, it should start with a lower case letter
+//The renderTemplate function is used to render templates on our various pages. Requires a response (w) and the
+//type of template that is being rendered (html, tmpl, etc)
 
-// addValues adds and returns the passed values of x and y
-func addValues(x, y int) int {
-	return x + y
-}
+func renderTemplate(w http.ResponseWriter, tmpl string) {
 
-func Divide(w http.ResponseWriter, r *http.Request) {
-	f, err := divideValues(100.0, 0.0)
+	//ParsedTemplate is used to store the template that will be rendered. The template that is stored
+	//will depend on the string provided when renderTemplate is called
+	parsedTemplate, _ := template.ParseFiles("./templates/" + tmpl)
+	err := parsedTemplate.Execute(w, nil)
 	if err != nil {
-		fmt.Fprintf(w, "Cannot divide by zero")
-		return
+		fmt.Println("error parsing template", err)
 	}
-
-	fmt.Fprintf(w, "%f divided by %f is %f", 100.0, 0.0, f)
-}
-
-func divideValues(x, y float32) (float32, error) {
-	if y <= 0 {
-		err := errors.New("cannot divide by zero")
-		return 0, err
-	}
-	result := x / y
-	return result, nil
 }
 
 // main is the main application function
@@ -69,7 +50,6 @@ func main() {
 
 	http.HandleFunc("/", Home)
 	http.HandleFunc("/about", About)
-	http.HandleFunc("/divide", Divide)
 
 	//Prints the port in use by the application to the terminal
 	fmt.Printf("Starting application on port %s", portNumber)
