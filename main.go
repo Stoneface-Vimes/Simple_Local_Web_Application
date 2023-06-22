@@ -12,6 +12,7 @@ import (
 	"net/http"
 )
 
+// PortNumber is set as a const as we do not want the value of the variable to change at any point
 const portNumber = ":8080"
 
 // In order for a function to respond to a request from a web browser, it has to handle two parameters:
