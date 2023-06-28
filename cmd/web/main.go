@@ -22,7 +22,7 @@ func main() {
 	http.HandleFunc("/about", handlers.About)
 
 	//Prints the port in use by the application to the terminal
-	fmt.Printf("Starting application on port %s", portNumber)
+	fmt.Printf("Starting application on port %s\n", portNumber)
 
 	//Establishes a server and listens at the port defined at portNumber. A handler can be specified; when nil is used
 	//a default handler is chosen
