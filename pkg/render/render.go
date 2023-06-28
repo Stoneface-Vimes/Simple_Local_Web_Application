@@ -24,7 +24,7 @@ func RenderTemplateTest(w http.ResponseWriter, tmpl string) {
 	}
 }
 
-// Template cache, stores parsed templates to avoid redundant disc reads
+// Package level Template Cache, stores parsed templates to avoid redundant disc reads
 var tc = make(map[string]*template.Template)
 
 func RenderTemplate(w http.ResponseWriter, t string) {
